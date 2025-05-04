@@ -23,6 +23,7 @@
     <Folder Include="Features\Projects\AddProject\Queries\" />
     <Folder Include="Features\Users\" />
     <Folder Include="Features\Tasks\" />
+    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>
