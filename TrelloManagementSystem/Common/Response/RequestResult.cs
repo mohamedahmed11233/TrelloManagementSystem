@@ -12,7 +12,7 @@ namespace TrelloManagementSystem.Common.Response
 
         public static RequestResult<T> Failure(ErrorCode errorCode)
         {
-            return new RequestResult<T>(default, false, errorCode.GetDescription(), errorCode);
+            return new RequestResult<T>(default!, false, errorCode.GetDescription(), errorCode);
         }
     }
 }
