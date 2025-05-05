@@ -13,18 +13,18 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
 {
     public static class AddExtensionMethods
     {
+
         public static IServiceCollection AddDependencyInjectionMethods(this IServiceCollection Services, IConfiguration configuration)
         {
+
             Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            Services.AddEndpointsApiExplorer();
+          Services.AddEndpointsApiExplorer();
             Services.AddSwaggerGen();
             Services.AddScoped<GlobalTranactionMiddleware>();
             Services.AddScoped<ExceptionMiddleware>();
-            Services.AddDbContext<TrelloContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            Services.AddDbContext<TrelloContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            // Ensure MediatR is properly referenced and configured
             Services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssemblies(
                     typeof(Program).Assembly,

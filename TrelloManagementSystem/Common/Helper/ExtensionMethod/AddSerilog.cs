@@ -4,7 +4,7 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
 {
     public static class AddSerilog
     {
-        public static ILoggingBuilder AddSerilogLogger(this ILoggingBuilder Logging, IConfiguration configuration, WebApplicationBuilder builder)
+        public static ILoggingBuilder AddSerilogLogger(this ILoggingBuilder Logging,IConfiguration configuration,WebApplicationBuilder builder)
         {
             Logging.AddConsole();
             Logging.AddDebug();

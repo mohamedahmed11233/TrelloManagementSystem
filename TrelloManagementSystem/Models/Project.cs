@@ -1,12 +1,13 @@
-﻿using TrelloManagementSystem.Common.Enum;
+﻿using TrelloManagementSystem.Common.Enums;
 
 namespace TrelloManagementSystem.Models
 {
     public class Project :BaseModel
     {
         public string Title { get; set; }
-        public ProjectStatus ProjectStatus { get; set; }
+        public ProjectsStatus ProjectStatus { get; set; }
         public ICollection<ProjectTask> Tasks { get; set; } = new HashSet<ProjectTask>();
+        public ICollection<User> Users { get; set; } = new HashSet<User>();
 
     }
 }

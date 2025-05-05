@@ -1,7 +1,7 @@
-﻿namespace TrelloManagementSystem.Common.Enum
+﻿namespace TrelloManagementSystem.Common.Enums
 {
     [Flags]
-    public enum ProjectStatus
+    public enum ProjectsStatus
     {
         Public = 1,
         Private = 2,

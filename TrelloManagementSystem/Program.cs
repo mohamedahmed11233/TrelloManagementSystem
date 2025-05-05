@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using TrelloManagementSystem.Common.Database.Context;
 using TrelloManagementSystem.Common.Helper.ExtensionMethod;
 using TrelloManagementSystem.Common.Middlewares;
@@ -12,18 +14,9 @@ namespace TrelloManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
-            builder.Services.AddDbContext<TrelloContext>(opthion =>
-            {
-                opthion.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
             builder.Services.AddDependencyInjectionMethods(builder.Configuration);
             builder.Logging.AddSerilogLogger(builder.Configuration, builder);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
