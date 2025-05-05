@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Common.Database.Context
 {
@@ -8,8 +9,8 @@ namespace TrelloManagementSystem.Common.Database.Context
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectTask> Tasks { get; set; }
+
     }
 }

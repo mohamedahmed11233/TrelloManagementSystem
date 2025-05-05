@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using TrelloManagementSystem.Common.Database.Context;
+using TrelloManagementSystem.Common.Helper.ExtensionMethod;
+using TrelloManagementSystem.Common.Middlewares;
 
 namespace TrelloManagementSystem
 {
@@ -9,8 +11,6 @@ namespace TrelloManagementSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
 
 
             builder.Services.AddDbContext<TrelloContext>(opthion =>
@@ -22,7 +22,8 @@ namespace TrelloManagementSystem
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddDependencyInjectionMethods(builder.Configuration);
+            builder.Logging.AddSerilogLogger(builder.Configuration, builder);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,6 +32,9 @@ namespace TrelloManagementSystem
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<GlobalTranactionMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
+
 
             app.UseHttpsRedirection();
 

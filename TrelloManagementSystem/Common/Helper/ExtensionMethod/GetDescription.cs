@@ -8,12 +8,12 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
     {
         public static string GetDescription(this Enum value)
         {
-            FieldInfo field = value.GetType().GetField(value.ToString());
+            var field = value.GetType().GetField(value.ToString());
 
-            if (field == null)
+            if (field is null)
                 return value.ToString();
 
-            DescriptionAttribute attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+            var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
             return attribute == null ? value.ToString() : attribute.Description;
         }
