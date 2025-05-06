@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using TrelloManagementSystem.Common.Response;
+using TrelloManagementSystem.Features.Common;
+using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Projects.AddProject.Command
 {
@@ -7,16 +10,17 @@ namespace TrelloManagementSystem.Features.Projects.AddProject.Command
 
     public class AddProjectCommandHandler : IRequestHandler<AddProjectCommand, RequestResult<AddProjectDto>>
     {
+        private readonly GenericRepository<Project> _projectRepo;
+        private readonly IMapper _mapper;
+
+        public AddProjectCommandHandler(GenericRepository<Project> projectRepo , IMapper mapper )
+        {
+            this._projectRepo = projectRepo;
+            this._mapper = mapper;
+        }
         public Task<RequestResult<AddProjectDto>> Handle(AddProjectCommand request, CancellationToken cancellationToken)
         {
-            // Handle the command logic here
-            var result = new AddProjectDto
-            {
-                Id = 1,
-                Title = "New Project",
-                Description = "This is a new project"
-            };
-            return Task.FromResult(RequestResult<AddProjectDto>.Success(result));
+            return Task.FromResult(RequestResult<AddProjectDto>.Failure(ErrorCode.InvalidInput));
         }
     }
 
