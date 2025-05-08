@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,9 @@ using System.Reflection;
 using TrelloManagementSystem.Common.Database.Context;
 using TrelloManagementSystem.Common.ErrorHandling;
 using TrelloManagementSystem.Common.Middlewares;
+using TrelloManagementSystem.Common.RequestStructure;
+using TrelloManagementSystem.Common.Response;
+using TrelloManagementSystem.Features.Common;
 
 namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
 {
@@ -23,14 +27,21 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
             Services.AddSwaggerGen();
             Services.AddScoped<GlobalTranactionMiddleware>();
             Services.AddScoped<ExceptionMiddleware>();
+            Services.AddScoped(typeof(GenericRepository<>));
+            Services.AddScoped<BaseRequestParameters>();
+            Services.AddScoped(typeof(BaseEndpointParameters<>));
+
+
+
             Services.AddDbContext<TrelloContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+           Services.AddAutoMapper(typeof(Program));
             Services.AddMediatR(cfg =>
-                cfg.RegisterServicesFromAssemblies(
-                    typeof(Program).Assembly,
-                    Assembly.Load("Application")
-                )
-            );
+             cfg.RegisterServicesFromAssemblies(
+                 typeof(Program).Assembly
+                 
+             )
+         ); 
 
             #region ApiValidationErrorr
             Services.Configure<ApiBehaviorOptions>(opthion =>

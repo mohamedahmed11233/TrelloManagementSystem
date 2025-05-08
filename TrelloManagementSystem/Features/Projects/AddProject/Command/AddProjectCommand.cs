@@ -1,26 +1,41 @@
 ﻿using AutoMapper;
 using MediatR;
-using TrelloManagementSystem.Common.Response;
+using TrelloManagementSystem.Common.Request;
+using TrelloManagementSystem.Common.RequestStructure;
 using TrelloManagementSystem.Features.Common;
 using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Projects.AddProject.Command
 {
-    public sealed record AddProjectCommand :IRequest<RequestResult<AddProjectDto>>;
-
-    public class AddProjectCommandHandler : IRequestHandler<AddProjectCommand, RequestResult<AddProjectDto>>
+    public sealed record AddProjectCommand(AddProjectDto Dto):IRequest<RequestResult<AddProjectDto>>;
+    public class AddProjectCommandHandler : BaseRequestHandler<AddProjectCommand, RequestResult<AddProjectDto>>
     {
+        private readonly BaseRequestParameters _parameters;
         private readonly GenericRepository<Project> _projectRepo;
-        private readonly IMapper _mapper;
 
-        public AddProjectCommandHandler(GenericRepository<Project> projectRepo , IMapper mapper )
+        public AddProjectCommandHandler(BaseRequestParameters parameters , GenericRepository<Project> projectRepo ) : base(parameters)
         {
+            this._parameters = parameters;
             this._projectRepo = projectRepo;
-            this._mapper = mapper;
         }
-        public Task<RequestResult<AddProjectDto>> Handle(AddProjectCommand request, CancellationToken cancellationToken)
+
+        public override async Task<RequestResult<AddProjectDto>> Handle(AddProjectCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(RequestResult<AddProjectDto>.Failure(ErrorCode.InvalidInput));
+            if (request.Dto is null)
+                return RequestResult<AddProjectDto>.Failure(ErrorCode.FailedCreateProject);
+            var project = _parameters.Mapper.Map<Project>(request.Dto);
+            try
+            {
+                await _projectRepo.AddAsync(project);
+                await _projectRepo.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                RequestResult<AddProjectDto>.Failure(ErrorCode.FailedCreateProject);
+            }
+            var projectDto = _parameters.Mapper.Map<AddProjectDto>(project);
+            return RequestResult<AddProjectDto>.Success(projectDto);
         }
     }
 

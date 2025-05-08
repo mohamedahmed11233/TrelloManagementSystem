@@ -1,7 +1,6 @@
-﻿
-using TrelloManagementSystem.Common.Helper.ExtensionMethod;
+﻿using TrelloManagementSystem.Common.Helper.ExtensionMethod;
 
-namespace TrelloManagementSystem.Common.Response
+namespace TrelloManagementSystem.Common.Request
 {
     public record RequestResult<T>(T Data, bool IsSuccess, string Message, ErrorCode ErrorCode)
     {

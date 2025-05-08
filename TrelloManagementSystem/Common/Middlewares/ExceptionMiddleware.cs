@@ -1,32 +1,32 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Text.Json;
 using TrelloManagementSystem.Common.ErrorHandling;
 using TrelloManagementSystem.Common.Helper.ExtensionMethod;
 
 namespace TrelloManagementSystem.Common.Middlewares
 {
-    public class ExceptionMiddleware
+    public class ExceptionMiddleware :IMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IWebHostEnvironment _env;
 
-        public ExceptionMiddleware(RequestDelegate next, IWebHostEnvironment env)
+        public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, IWebHostEnvironment env)
         {
-            _next = next;
+            _logger = logger;
             _env = env;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext)
+        public  async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
         {
             try
             {
-                await _next(httpContext);
+                await next(httpContext);
             }
             catch (Exception ex)
             {
-
-                AddSerilog.AddSerilogLogger(httpContext.RequestServices.GetRequiredService<ILoggingBuilder>(), httpContext.RequestServices.GetRequiredService<IConfiguration>(), httpContext.RequestServices.GetRequiredService<WebApplicationBuilder>());
-
+                _logger.LogError(ex, "[{Middleware}] {ExceptionType}: {Message}", nameof(ExceptionMiddleware), ex.GetType().Name, ex.Message);
+                //AddSerilog.AddSerilogLogger(httpContext.RequestServices.GetRequiredService<ILoggingBuilder> , httpContext.Request.<IConfiguration>);
                 httpContext.Response.StatusCode = ex switch
                 {
                     InvalidOperationException or ArgumentException => (int)HttpStatusCode.BadRequest, // 400

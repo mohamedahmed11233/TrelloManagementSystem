@@ -1,20 +1,22 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
+using TrelloManagementSystem.Features.Common;
 
 namespace TrelloManagementSystem.Common.Response
 {
     public class BaseEndpointParameters<TRequest>
     {
         private readonly IMediator _mediator;
-        private readonly IValidator<TRequest> _validator;
+        private readonly IMapper _mapper;
 
         public IMediator Mediator => _mediator;
-        public IValidator<TRequest> Validator => _validator;
+        public IMapper Mapper => _mapper;
 
-        public BaseEndpointParameters(IMediator mediator , IValidator<TRequest> validator)
+        public BaseEndpointParameters(IMediator mediator  , IMapper mapper)
         {
             _mediator = mediator;
-            _validator = validator;
+            _mapper = mapper;
         }
     }
 }

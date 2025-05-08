@@ -6,7 +6,7 @@ using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Common
 {
-    public class GenericRepository<T> where T : BaseModel
+    public class GenericRepository<T>:IDisposable where T : BaseModel
     {
         private readonly TrelloContext _dbContext;
         private readonly DbSet<T> _dbSet;
@@ -18,7 +18,6 @@ namespace TrelloManagementSystem.Features.Common
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
-
         }
         public async Task DeleteAsync(T item)
         {
@@ -88,6 +87,10 @@ namespace TrelloManagementSystem.Features.Common
         {
             return await _dbContext.SaveChangesAsync();
         }
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
 
         public async Task DeleteRangeAsync(IEnumerable<T> entities)
         {
@@ -118,6 +121,9 @@ namespace TrelloManagementSystem.Features.Common
         {
             return await _dbSet.AnyAsync(predicate);
         }
-
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }
