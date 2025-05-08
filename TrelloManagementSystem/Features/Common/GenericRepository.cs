@@ -26,7 +26,7 @@ namespace TrelloManagementSystem.Features.Common
             await UpdateInclude(item, nameof(BaseModel.IsDeleted));
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public  Task<IEnumerable<T>> GetAllAsync()
         {
             return Task.FromResult(_dbSet.AsNoTracking().AsEnumerable().Where(X => X.IsDeleted is false));
         }

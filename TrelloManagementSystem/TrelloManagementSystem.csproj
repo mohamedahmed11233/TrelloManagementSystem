@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Projects\DeleteProject\" />
-    <Folder Include="Features\Projects\GetAllProjects\SearchByTitle\" />
     <Folder Include="Features\Projects\GetProjectById\" />
     <Folder Include="Features\Projects\UpdateProject\" />
     <Folder Include="Features\Tasks\" />
