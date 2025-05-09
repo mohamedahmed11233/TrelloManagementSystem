@@ -26,7 +26,6 @@ namespace TrelloManagementSystem.Common.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[{Middleware}] {ExceptionType}: {Message}", nameof(ExceptionMiddleware), ex.GetType().Name, ex.Message);
-                //AddSerilog.AddSerilogLogger(httpContext.RequestServices.GetRequiredService<ILoggingBuilder> , httpContext.Request.<IConfiguration>);
                 httpContext.Response.StatusCode = ex switch
                 {
                     InvalidOperationException or ArgumentException => (int)HttpStatusCode.BadRequest, // 400

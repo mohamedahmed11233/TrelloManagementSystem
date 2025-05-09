@@ -1,11 +1,7 @@
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
-using TrelloManagementSystem.Common.Database.Context;
+using Hangfire;
+using Serilog;
 using TrelloManagementSystem.Common.Helper.ExtensionMethod;
 using TrelloManagementSystem.Common.Middlewares;
-
 namespace TrelloManagementSystem
 {
     public class Program
@@ -15,28 +11,36 @@ namespace TrelloManagementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDependencyInjectionMethods(builder.Configuration);
+            builder.Logging.ClearProviders(); // Optional: Clears default logging providers
             builder.Logging.AddSerilogLogger(builder.Configuration, builder);
-
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            try
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+                app.UseSerilogRequestLogging();
+                app.UseMiddleware<GlobalTranactionMiddleware>();
+                app.UseMiddleware<ExceptionMiddleware>();
+                app.UseHangfireDashboard("/hangfire");
+
+                app.UseHttpsRedirection();
+
+                app.UseAuthorization();
+
+
+                app.MapControllers();
+
+                app.Run();
             }
-            app.UseMiddleware<GlobalTranactionMiddleware>();
-            app.UseMiddleware<ExceptionMiddleware>();
+            catch (Exception)
+            { 
 
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+                builder.Logging.AddSerilogLogger(builder.Configuration,builder);
+            }
         }
     }
 }

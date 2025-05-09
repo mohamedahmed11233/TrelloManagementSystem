@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using Hangfire;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +19,10 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
 {
     public static class AddExtensionMethods
     {
-
         public static IServiceCollection AddDependencyInjectionMethods(this IServiceCollection Services, IConfiguration configuration)
         {
-
             Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-          Services.AddEndpointsApiExplorer();
+            Services.AddEndpointsApiExplorer();
             Services.AddSwaggerGen();
             Services.AddScoped<GlobalTranactionMiddleware>();
             Services.AddScoped<ExceptionMiddleware>();
@@ -31,17 +30,19 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
             Services.AddScoped<BaseRequestParameters>();
             Services.AddScoped(typeof(BaseEndpointParameters<>));
 
-
-
             Services.AddDbContext<TrelloContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-           Services.AddAutoMapper(typeof(Program));
+            Services.AddAutoMapper(typeof(Program));
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
             Services.AddMediatR(cfg =>
-             cfg.RegisterServicesFromAssemblies(
-                 typeof(Program).Assembly
-                 
-             )
-         ); 
+                cfg.RegisterServicesFromAssemblies(
+                    typeof(Program).Assembly
+                )
+            );
 
             #region ApiValidationErrorr
             Services.Configure<ApiBehaviorOptions>(opthion =>
@@ -75,7 +76,16 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
             Services.AddHttpContextAccessor();
 
             Services.AddControllersWithViews();
+            Services.AddHangfire(opt =>
+            {
+                opt.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseRecommendedSerializerSettings();
+                opt.UseSimpleAssemblyNameTypeSerializer();
+                opt.UseRecommendedSerializerSettings();
+            });
+            Services.AddHangfireServer();
 
+            // Fix: Add Hangfire Dashboard as middleware in the application pipeline instead of IServiceCollection
             return Services;
         }
     }

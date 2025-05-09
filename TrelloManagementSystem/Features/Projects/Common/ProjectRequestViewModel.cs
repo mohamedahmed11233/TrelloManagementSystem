@@ -1,9 +1,9 @@
 ﻿using TrelloManagementSystem.Common.Enums;
 using TrelloManagementSystem.Features.Common;
 
-namespace TrelloManagementSystem.Features.Projects.GetAllProjects
+namespace TrelloManagementSystem.Features.Projects.Common
 {
-    public class ProjectsRequestViewModel
+    public class ProjectRequestViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
