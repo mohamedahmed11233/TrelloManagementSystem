@@ -2,6 +2,7 @@
 using TrelloManagementSystem.Common.Request;
 using TrelloManagementSystem.Features.Projects.AddProject;
 using TrelloManagementSystem.Features.Projects.Common;
+using TrelloManagementSystem.Features.Projects.UpdateProject;
 using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Common
@@ -19,8 +20,9 @@ namespace TrelloManagementSystem.Features.Common
             CreateMap<ProjectRequestViewModel, ProjectResponseViewModel>();
             CreateMap<Project, ProjectRequestViewModel>().ReverseMap();
             CreateMap<RequestResult<ProjectRequestViewModel>, ProjectResponseViewModel>().ReverseMap();
-
-
+            CreateMap<RequestResult<UpdateProjectRequestViewModel>, UpdateProjectResponseViewModel>();
+            CreateMap<Project, UpdateProjectRequestViewModel>();
+            CreateMap<RequestResult<bool>, RequestResult<int>>();
         }
     }
 }

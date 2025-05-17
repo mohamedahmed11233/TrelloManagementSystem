@@ -36,8 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Projects\DeleteProject\" />
-    <Folder Include="Features\Projects\UpdateProject\" />
     <Folder Include="Features\Tasks\" />
     <Folder Include="Features\Users\" />
   </ItemGroup>
