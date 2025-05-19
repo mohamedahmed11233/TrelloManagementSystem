@@ -3,7 +3,7 @@ using TrelloManagementSystem.Common.Request;
 using TrelloManagementSystem.Common.RequestStructure;
 using TrelloManagementSystem.Features.Common;
 using TrelloManagementSystem.Features.Projects.Common;
-using TrelloManagementSystem.Features.Projects.DeleteProject.DeleteProjectEvent;
+using TrelloManagementSystem.Features.Projects.DeleteProject.DeletionOrchestrator;
 using TrelloManagementSystem.Features.Projects.GetProjectById.Query;
 using TrelloManagementSystem.Models;
 
@@ -29,10 +29,18 @@ namespace TrelloManagementSystem.Features.Projects.DeleteProject
             if (project is null)
                 return RequestResult<bool>.Failure(ErrorCode.ProjectNotFound);
             
-            await _parameters.Mediator.Publish(new ProjectDeletionEvent(request.Id));
+           // await _parameters.Mediator.Publish(new DeleteProjectOrchestrator(request.Id));
             var mappedProject = _parameters.Mapper.Map<RequestResult<ProjectRequestViewModel>, Project>(project);
-            await _repository.DeleteAsync(mappedProject);
-            await _repository.SaveChangesAsync();
+            try
+            {
+                await _repository.DeleteAsync(mappedProject);
+                await _repository.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return RequestResult<bool>.Success(true);
         }
     }

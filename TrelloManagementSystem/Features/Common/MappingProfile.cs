@@ -24,6 +24,7 @@ namespace TrelloManagementSystem.Features.Common
             CreateMap<Project, UpdateProjectRequestViewModel>();
             CreateMap<RequestResult<bool>, RequestResult<int>>();
             CreateMap<RequestResult<ProjectRequestViewModel>, Project>();
+            CreateMap<RequestResult<bool> , bool>();
           
         }
     }

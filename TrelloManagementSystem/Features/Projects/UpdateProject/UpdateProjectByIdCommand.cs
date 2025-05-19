@@ -19,14 +19,12 @@ namespace TrelloManagementSystem.Features.Projects.UpdateProject
         public async Task<RequestResult<UpdateProjectRequestViewModel>> Handle(UpdateProjectByIdCommand request, CancellationToken cancellationToken)
         {
             if (request.Id <= 0)
-            {
-                return RequestResult<UpdateProjectRequestViewModel>.Failure(ErrorCode.InvalidInput);
-            }
+             return RequestResult<UpdateProjectRequestViewModel>.Failure(ErrorCode.InvalidInput);
+            
             var project = await _repository.GetByIdAsync(request.Id);
             if (project is null)
-            {
-                return RequestResult<UpdateProjectRequestViewModel>.Failure(ErrorCode.ProjectNotFound);
-            }
+             return RequestResult<UpdateProjectRequestViewModel>.Failure(ErrorCode.ProjectNotFound);
+            
             var mappedProject = _parameters.Mapper.Map<Project , UpdateProjectRequestViewModel>(project);
             return RequestResult<UpdateProjectRequestViewModel>.Success(mappedProject);
         }
