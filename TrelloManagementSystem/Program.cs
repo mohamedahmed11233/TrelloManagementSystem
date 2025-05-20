@@ -11,7 +11,7 @@ namespace TrelloManagementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDependencyInjectionMethods(builder.Configuration);
-            builder.Logging.ClearProviders(); // Optional: Clears default logging providers
+            builder.Logging.ClearProviders(); 
             builder.Logging.AddSerilogLogger(builder.Configuration, builder);
             var app = builder.Build();
             try
@@ -23,6 +23,7 @@ namespace TrelloManagementSystem
                     app.UseSwaggerUI();
                 }
                 app.UseSerilogRequestLogging();
+                app.UseMiddleware<LoggingMiddleware>();
                 app.UseMiddleware<GlobalTranactionMiddleware>();
                 app.UseMiddleware<ExceptionMiddleware>();
                 app.UseHangfireDashboard("/hangfire");
