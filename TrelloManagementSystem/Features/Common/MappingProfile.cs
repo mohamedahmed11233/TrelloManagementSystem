@@ -3,6 +3,7 @@ using TrelloManagementSystem.Common.Request;
 using TrelloManagementSystem.Features.Projects.AddProject;
 using TrelloManagementSystem.Features.Projects.Common;
 using TrelloManagementSystem.Features.Projects.UpdateProject;
+using TrelloManagementSystem.Features.Tasks.AddTask;
 using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Common
@@ -24,8 +25,17 @@ namespace TrelloManagementSystem.Features.Common
             CreateMap<Project, UpdateProjectRequestViewModel>();
             CreateMap<RequestResult<bool>, RequestResult<int>>();
             CreateMap<RequestResult<ProjectRequestViewModel>, Project>();
-            CreateMap<RequestResult<bool> , bool>();
-          
+            CreateMap<RequestResult<bool>, bool>();
+
+            #region Task Mapping
+
+            CreateMap<AddTaskRequestViewModel, AddTaskDto>().ReverseMap();
+            CreateMap<AddTaskDto, ProjectTask>().ReverseMap();
+            CreateMap<AddTaskDto, AddTaskResponseViewModel>().ReverseMap();
+            CreateMap<ProjectTask, ProjectTaskDto>().ReverseMap();
+
+            #endregion
+
         }
     }
 }

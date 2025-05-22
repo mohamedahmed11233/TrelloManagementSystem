@@ -1,15 +1,17 @@
 ﻿using TrelloManagementSystem.Common.Enums;
-namespace TrelloManagementSystem.Models
+using TrelloManagementSystem.Models;
+
+namespace TrelloManagementSystem.Features.Tasks.AddTask
 {
-    public class ProjectTask:BaseModel
+    public class AddTaskDto
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TasksStatus TaskStatus { get; set; }= TasksStatus.New;
+
+        public TasksStatus TaskStatus { get; set; } = TasksStatus.New;
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
 
         public int UserId { get; set; }
-        public User User { get; set; }
     }
 }

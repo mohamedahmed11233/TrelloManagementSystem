@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrelloManagementSystem.Common.Database.Context;
 
@@ -11,9 +12,11 @@ using TrelloManagementSystem.Common.Database.Context;
 namespace TrelloManagementSystem.migrations
 {
     [DbContext(typeof(TrelloContext))]
-    partial class TrelloContextModelSnapshot : ModelSnapshot
+    [Migration("20250521184359_DescriptionToTask")]
+    partial class DescriptionToTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,36 @@ namespace TrelloManagementSystem.migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProjectProjectTask", b =>
+                {
+                    b.Property<int>("ProjectsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TasksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectsId", "TasksId");
+
+                    b.HasIndex("TasksId");
+
+                    b.ToTable("ProjectProjectTask");
+                });
+
+            modelBuilder.Entity("ProjectTaskUser", b =>
+                {
+                    b.Property<int>("TasksId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TasksId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ProjectTaskUser");
+                });
 
             modelBuilder.Entity("ProjectUser", b =>
                 {
@@ -84,9 +117,6 @@ namespace TrelloManagementSystem.migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TaskStatus")
                         .HasColumnType("int");
 
@@ -97,14 +127,7 @@ namespace TrelloManagementSystem.migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Tasks");
                 });
@@ -154,6 +177,36 @@ namespace TrelloManagementSystem.migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ProjectProjectTask", b =>
+                {
+                    b.HasOne("TrelloManagementSystem.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrelloManagementSystem.Models.ProjectTask", null)
+                        .WithMany()
+                        .HasForeignKey("TasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectTaskUser", b =>
+                {
+                    b.HasOne("TrelloManagementSystem.Models.ProjectTask", null)
+                        .WithMany()
+                        .HasForeignKey("TasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrelloManagementSystem.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.HasOne("TrelloManagementSystem.Models.Project", null)
@@ -167,35 +220,6 @@ namespace TrelloManagementSystem.migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TrelloManagementSystem.Models.ProjectTask", b =>
-                {
-                    b.HasOne("TrelloManagementSystem.Models.Project", "Project")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TrelloManagementSystem.Models.User", "User")
-                        .WithMany("Tasks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TrelloManagementSystem.Models.Project", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("TrelloManagementSystem.Models.User", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }
