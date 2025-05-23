@@ -4,6 +4,7 @@ using TrelloManagementSystem.Features.Projects.AddProject;
 using TrelloManagementSystem.Features.Projects.Common;
 using TrelloManagementSystem.Features.Projects.UpdateProject;
 using TrelloManagementSystem.Features.Tasks.AddTask;
+using TrelloManagementSystem.Features.Tasks.GetTaskById;
 using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Common
@@ -33,6 +34,10 @@ namespace TrelloManagementSystem.Features.Common
             CreateMap<AddTaskDto, ProjectTask>().ReverseMap();
             CreateMap<AddTaskDto, AddTaskResponseViewModel>().ReverseMap();
             CreateMap<ProjectTask, ProjectTaskDto>().ReverseMap();
+
+            CreateMap<ProjectTask, GetTaskDto>().ReverseMap();
+            CreateMap<GetTaskResponseViewModel, GetTaskDto>().ReverseMap();
+
 
             #endregion
 
