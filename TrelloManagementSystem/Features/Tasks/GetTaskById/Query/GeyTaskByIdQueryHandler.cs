@@ -30,12 +30,10 @@ namespace TrelloManagementSystem.Features.Tasks.GetTaskById.Query
                 return RequestResult<GetTaskDto>.Failure(ErrorCode.TaskNotFound);
 
             var dto = _parameters.Mapper.Map<GetTaskDto>(task);
-
             dto.ProjectTitle = task.Project?.Title;
-            dto.UserName = task.User?.Username;
+            dto.UserName = task.User?.FirstName;
 
             return RequestResult<GetTaskDto>.Success(dto);
         }
-
     }
 }

@@ -35,8 +35,11 @@ namespace TrelloManagementSystem.Features.Common
             CreateMap<AddTaskDto, AddTaskResponseViewModel>().ReverseMap();
             CreateMap<ProjectTask, ProjectTaskDto>().ReverseMap();
 
-            CreateMap<ProjectTask, GetTaskDto>().ReverseMap();
             CreateMap<GetTaskResponseViewModel, GetTaskDto>().ReverseMap();
+
+            CreateMap<ProjectTask, GetTaskDto>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName))
+            .ForMember(dest => dest.ProjectTitle, opt => opt.MapFrom(src => src.Project.Title));
 
 
             #endregion
