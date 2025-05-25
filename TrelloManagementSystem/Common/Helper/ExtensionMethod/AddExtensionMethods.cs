@@ -2,6 +2,7 @@
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using TrelloManagementSystem.Common.Middlewares;
 using TrelloManagementSystem.Common.RequestStructure;
 using TrelloManagementSystem.Common.Response;
 using TrelloManagementSystem.Features.Common;
+using TrelloManagementSystem.Features.Tasks.UpdateExpiredTasks;
 
 namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
 {
@@ -29,6 +31,8 @@ namespace TrelloManagementSystem.Common.Helper.ExtensionMethod
             Services.AddScoped(typeof(GenericRepository<>));
             Services.AddScoped<BaseRequestParameters>();
             Services.AddScoped(typeof(BaseEndpointParameters<>));
+
+           
 
             Services.AddDbContext<TrelloContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 

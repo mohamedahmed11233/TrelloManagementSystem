@@ -9,6 +9,7 @@
         Blocked = 4,
         Archived = 5,
         Deleted = 6,
-        New = 7
+        New = 7,
+        Expired=8,
     }
 }
