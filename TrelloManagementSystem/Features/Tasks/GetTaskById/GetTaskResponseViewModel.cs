@@ -8,6 +8,8 @@ namespace TrelloManagementSystem.Features.Tasks.GetTaskById
         public string Title { get; set; }
         public string Description { get; set; }
 
+        public DateTime Deadline { get; set; } = DateTime.Now.AddDays(7);
+
         public TasksStatus TaskStatus { get; set; }
         public string TaskStatusText => TaskStatus.ToString();
 

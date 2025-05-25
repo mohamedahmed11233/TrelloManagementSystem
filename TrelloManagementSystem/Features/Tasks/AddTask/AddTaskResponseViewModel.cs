@@ -10,6 +10,7 @@ namespace TrelloManagementSystem.Features.Tasks.AddTask
         public string Title { get; set; }
         public TasksStatus TaskStatus { get; set; }
         public int ProjectId { get; set; }
+        public DateTime Deadline { get; set; }
 
         public int UserId { get; set; }
     }

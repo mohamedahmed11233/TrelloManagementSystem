@@ -7,11 +7,11 @@ using TrelloManagementSystem.Features.Tasks.GetTaskById.Query;
 
 namespace TrelloManagementSystem.Features.Tasks.GetTaskById
 {
-    public class GetAllTasksEndpoint : BaseEndpoint<int, GetTaskResponseViewModel>
+    public class GetTaskByIdEndpoint : BaseEndpoint<int, GetTaskResponseViewModel>
     {
         private readonly BaseEndpointParameters<GetTaskResponseViewModel> _parameters;
 
-        public GetAllTasksEndpoint(BaseEndpointParameters<GetTaskResponseViewModel> parameters) : base(parameters.Mediator,parameters.Mapper)
+        public GetTaskByIdEndpoint(BaseEndpointParameters<GetTaskResponseViewModel> parameters) : base(parameters.Mediator,parameters.Mapper)
         {
             _parameters = parameters;
         }

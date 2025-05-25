@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrelloManagementSystem.Common.Database.Context;
 
@@ -11,9 +12,11 @@ using TrelloManagementSystem.Common.Database.Context;
 namespace TrelloManagementSystem.migrations
 {
     [DbContext(typeof(TrelloContext))]
-    partial class TrelloContextModelSnapshot : ModelSnapshot
+    [Migration("20250525122908_AddDeadlinInTask")]
+    partial class AddDeadlinInTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -9,6 +9,7 @@ namespace TrelloManagementSystem.Models
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
+        public DateTime Deadline { get; set; }= DateTime.Now.AddDays(7);
         public int UserId { get; set; }
         public User User { get; set; }
     }

@@ -11,6 +11,7 @@ namespace TrelloManagementSystem.Features.Tasks.AddTask
 
         public TasksStatus TaskStatus { get; set; } = TasksStatus.New;
         public int ProjectId { get; set; }
+        public DateTime Deadline { get; set; } = DateTime.Now.AddDays(7);
 
         public int UserId { get; set; }
     }
