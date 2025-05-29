@@ -6,7 +6,7 @@ using TrelloManagementSystem.Models;
 
 namespace TrelloManagementSystem.Features.Tasks.UpdateExpiredTasks
 {
-    public class UpdateExpiredTasksHandler : BaseRequestHandler<UpdateExpiredTasksCommand, RequestResult<string>>
+    public class UpdateExpiredTasksHandler:BaseRequestHandler<UpdateExpiredTasksCommand,RequestResult<string>>
     {
         private readonly BaseRequestParameters _parameters;
         private readonly GenericRepository<ProjectTask> _genericRepository;

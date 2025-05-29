@@ -5,7 +5,7 @@ using TrelloManagementSystem.Features.Tasks.GetTaskById;
 using TrelloManagementSystem.Features.Tasks.GetTaskById.Query;
 using TrelloManagementSystem.Models;
 
-namespace TrelloManagementSystem.Features.Tasks.EditeTask.Commend
+namespace TrelloManagementSystem.Features.Tasks.EditTask.Commend
 {
     public class UpdateTaskCommendHandler : BaseRequestHandler<UpdateTaskCommend, RequestResult<GetTaskDto>>
     {

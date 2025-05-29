@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TrelloManagementSystem.Common.Response;
 using TrelloManagementSystem.Features.Tasks.GetTaskById;
 
-namespace TrelloManagementSystem.Features.Tasks.EditeTask.Commend
+namespace TrelloManagementSystem.Features.Tasks.EditTask.Commend
 {
     public class UpdateTaskEndpoint : BaseEndpoint<UpdaterequetTaskViewModel, GetTaskResponseViewModel>
     {

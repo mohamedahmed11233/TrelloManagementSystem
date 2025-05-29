@@ -1,4 +1,4 @@
-﻿namespace TrelloManagementSystem.Features.Tasks.EditeTask
+﻿namespace TrelloManagementSystem.Features.Tasks.EditTask
 {
     public class UpdaterequetTaskViewModel
     {
