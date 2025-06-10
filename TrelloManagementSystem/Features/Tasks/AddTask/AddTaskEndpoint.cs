@@ -24,7 +24,6 @@ namespace TrelloManagementSystem.Features.Tasks.AddTask
 
             var task = await _endpointParameters.Mediator.Send(new AddTaskCommand(taskDto));
 
-            // 🟢 خُد الـ Data فقط من الـ result
             var result = _endpointParameters.Mapper.Map<AddTaskResponseViewModel>(task.Data);
 
             if (task.IsSuccess)
